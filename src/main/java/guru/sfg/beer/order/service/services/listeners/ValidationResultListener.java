@@ -2,7 +2,6 @@ package guru.sfg.beer.order.service.services.listeners;
 
 import guru.sfg.beer.order.service.config.JmsConfig;
 import guru.sfg.beer.order.service.services.BeerOrderManager;
-import guru.sfg.beer.order.service.web.mappers.BeerOrderMapper;
 import guru.sfg.brewery.model.events.ValidateOrderResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 /**
- * Created By Luca Moro on 27/02/2021 17:37
+ * Created by Luca Moro on 28/02/2021
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -24,6 +23,8 @@ public class ValidationResultListener {
     @JmsListener(destination = JmsConfig.VALIDATE_ORDER_RESPONSE_QUEUE)
     public void listen(ValidateOrderResult result){
         final UUID beerOrderId = result.getOrderId();
+
+        log.debug("Validation Result for Order Id: " + beerOrderId);
 
         beerOrderManager.processValidationResult(beerOrderId, result.getIsValid());
     }

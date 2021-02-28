@@ -24,7 +24,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 /**
- * Created by jt on 2019-02-13.
+ * Created by Luca Moro on 28/02/2021
  */
 @Component
 public class DateMapper {

@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created By Luca Moro on 27/02/2021 16:00
+ * Created by Luca Moro on 28/02/2021
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -55,13 +55,14 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
         beerOrderOptional.ifPresentOrElse(beerOrder -> {
             if(isValid){
-                BeerOrder validatedOrder = beerOrderRepository.findById(beerOrderId).get();
-
-                sendBeerOrderEvent(validatedOrder, BeerOrderEventEnum.ALLOCATE_ORDER);
+                sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_PASSED);
 
                 //wait for status change
                 awaitForStatus(beerOrderId, BeerOrderStatusEnum.VALIDATED);
 
+                BeerOrder validatedOrder = beerOrderRepository.findById(beerOrderId).get();
+
+                sendBeerOrderEvent(validatedOrder, BeerOrderEventEnum.ALLOCATE_ORDER);
 
             } else {
                 sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_FAILED);

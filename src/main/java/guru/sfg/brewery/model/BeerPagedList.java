@@ -1,5 +1,6 @@
 package guru.sfg.brewery.model;
 
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,11 +12,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by Luca Moro on 05/01/2021 11:04
+ * Created by Luca Moro on 28/02/2021
  */
-public class BeerPagedList extends PageImpl<BeerDto>  implements Serializable {
+public class BeerPagedList extends PageImpl<BeerDto> implements Serializable {
 
-    static final long serialVersionUID = -1234555461442213400L;
+    static final long serialVersionUID = 1114715135625836949L;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public BeerPagedList(@JsonProperty("content") List<BeerDto> content,

@@ -10,12 +10,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Created By Luca Moro on 31/01/2021 20:14
+ * Created by Luca Moro on 28/02/2021
  */
 @ConfigurationProperties(prefix = "sfg.brewery", ignoreUnknownFields = false)
 @Service
 public class BeerServiceImpl implements BeerService {
-
     public final static String BEER_PATH_V1 = "/api/v1/beer/";
     public final static String BEER_UPC_PATH_V1 = "/api/v1/beerUpc/";
     private final RestTemplate restTemplate;

@@ -9,23 +9,26 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 /**
- * Created By Luca Moro on 27/02/2021 18:49
+ * Created by Luca Moro on 28/02/2021
  */
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class BeerOrderAllocationResultListener {
-
     private final BeerOrderManager beerOrderManager;
 
     @JmsListener(destination = JmsConfig.ALLOCATE_ORDER_RESPONSE_QUEUE)
-    public void listen(AllocateOrderResult result) {
-        if (!result.getAllocationError() && !result.getPendingInventory()) {
+    public void listen(AllocateOrderResult result){
+        if(!result.getAllocationError() && !result.getPendingInventory()){
+            //allocated normally
             beerOrderManager.beerOrderAllocationPassed(result.getBeerOrderDto());
-        } else if (!result.getAllocationError() && result.getPendingInventory()) {
+        } else if(!result.getAllocationError() && result.getPendingInventory()) {
+            //pending inventory
             beerOrderManager.beerOrderAllocationPendingInventory(result.getBeerOrderDto());
-        } else if (result.getAllocationError()) {
+        } else if(result.getAllocationError()){
+            //allocation error
             beerOrderManager.beerOrderAllocationFailed(result.getBeerOrderDto());
         }
     }
+
 }

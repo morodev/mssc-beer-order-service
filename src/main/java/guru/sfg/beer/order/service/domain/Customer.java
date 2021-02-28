@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Created by jt on 2019-01-26.
+ * Created by Luca Moro on 28/02/2021
  */
 @Getter
 @Setter
@@ -49,7 +49,7 @@ public class Customer extends BaseEntity {
 
     private String customerName;
 
-    @Type(type = "org.hibernate.type.UUIDCharType")
+    @Type(type="org.hibernate.type.UUIDCharType")
     @Column(length = 36, columnDefinition = "varchar(36)")
     private UUID apiKey;
 

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by jt on 2019-01-26.
+ * Created by Luca Moro on 28/02/2021
  */
 public interface CustomerRepository extends JpaRepository<Customer, UUID> {
     List<Customer> findAllByCustomerNameLike(String customerName);

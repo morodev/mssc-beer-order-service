@@ -18,23 +18,21 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * Created By Luca Moro on 27/02/2021  16:48
+/*
+ * Created by Luca Moro on 28/02/2021
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class ValidateOrderAction implements Action<BeerOrderStatusEnum, BeerOrderEventEnum> {
 
-
     private final BeerOrderRepository beerOrderRepository;
     private final BeerOrderMapper beerOrderMapper;
     private final JmsTemplate jmsTemplate;
 
     @Override
-    public void execute(StateContext<BeerOrderStatusEnum, BeerOrderEventEnum> stateContext) {
-
-        String beerOrderId = (String) stateContext.getMessage().getHeaders().get(BeerOrderManagerImpl.ORDER_ID_HEADER);
+    public void execute(StateContext<BeerOrderStatusEnum, BeerOrderEventEnum> context) {
+        String beerOrderId = (String) context.getMessage().getHeaders().get(BeerOrderManagerImpl.ORDER_ID_HEADER);
         Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(UUID.fromString(beerOrderId));
 
         beerOrderOptional.ifPresentOrElse(beerOrder -> {
@@ -42,5 +40,7 @@ public class ValidateOrderAction implements Action<BeerOrderStatusEnum, BeerOrde
                     .beerOrder(beerOrderMapper.beerOrderToDto(beerOrder))
                     .build());
         }, () -> log.error("Order Not Found. Id: " + beerOrderId));
+
+        log.debug("Sent Validation request to queue for order id " + beerOrderId);
     }
 }

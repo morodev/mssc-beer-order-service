@@ -5,9 +5,6 @@ import guru.sfg.brewery.model.BeerDto;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * Created By Luca MOro on 31/01/2021 20:14
- */
 public interface BeerService {
 
     Optional<BeerDto> getBeerById(UUID uuid);
