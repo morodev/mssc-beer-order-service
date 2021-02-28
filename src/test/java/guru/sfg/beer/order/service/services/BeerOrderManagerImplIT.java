@@ -83,32 +83,26 @@ public class BeerOrderManagerImplIT {
     @Test
     void testNewToAllocated() throws JsonProcessingException, InterruptedException {
 
-        BeerDto beerDto = BeerDto.builder()
-                .id(beerId)
-                .upc("12345")
-                .build();
-
-        // BeerPagedList list = new BeerPagedList(Arrays.asList(beerDto));
+        BeerDto beerDto = BeerDto.builder().id(beerId).upc("12345").build();
 
         wireMockServer.stubFor(get(BeerServiceImpl.BEER_UPC_PATH_V1 + "12345")
-        .willReturn(okJson(objectMapper.writeValueAsString(beerDto))));
+                .willReturn(okJson(objectMapper.writeValueAsString(beerDto))));
 
         BeerOrder beerOrder = createBeerOrder();
 
         BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
 
-        await().untilAsserted( () -> {
+        await().untilAsserted(() -> {
             BeerOrder foundOrder = beerOrderRepository.findById(beerOrder.getId()).get();
 
             //todo - ALLOCATED STATUS
             assertEquals(BeerOrderStatusEnum.ALLOCATION_PENDING, foundOrder.getOrderStatus());
         });
-        //Thread.sleep(5000);
 
-        savedBeerOrder = beerOrderRepository.findById(savedBeerOrder.getId()).get();
+        BeerOrder savedBeerOrder2 = beerOrderRepository.findById(savedBeerOrder.getId()).get();
 
         assertNotNull(savedBeerOrder);
-        assertEquals(BeerOrderStatusEnum.ALLOCATED, savedBeerOrder.getOrderStatus());
+        assertEquals(BeerOrderStatusEnum.ALLOCATED, savedBeerOrder2.getOrderStatus());
     }
 
     public BeerOrder createBeerOrder() {
